@@ -5,7 +5,7 @@ Gemini Lake GPIO device driver for FreeBSD
 # Description
 
 The gmlgpio kernel module provides GPIO driver services for Intel's
-Gemini Lake Soc.
+Gemini Lake Processors.
 
 # Installation
 
