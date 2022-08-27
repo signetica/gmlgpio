@@ -374,14 +374,14 @@ static char *gmlgpio_hids[] = {
 static int
 gmlgpio_probe(device_t dev)
 {
-    int rv;
+	int rv;
     
-    if (acpi_disabled("gmlgpio"))
-        return (ENXIO);
-    rv = ACPI_ID_PROBE(device_get_parent(dev), dev, gmlgpio_hids, NULL);
-    if (rv <= 0)
-	device_set_desc(dev, "Intel Gemini Lake GPIO");
-    return (rv);
+	if (acpi_disabled("gmlgpio"))
+		return (ENXIO);
+	rv = ACPI_ID_PROBE(device_get_parent(dev), dev, gmlgpio_hids, NULL);
+	if (rv <= 0)
+		device_set_desc(dev, "Intel Gemini Lake GPIO");
+	return (rv);
 }
 
 static int
@@ -439,7 +439,7 @@ gmlgpio_attach(device_t dev)
 
 	sc->sc_mem_rid = 0;
 	sc->sc_mem_res = bus_alloc_resource_any(sc->sc_dev, SYS_RES_MEMORY,
-		&sc->sc_mem_rid, RF_ACTIVE);
+	    &sc->sc_mem_rid, RF_ACTIVE);
 	if (sc->sc_mem_res == NULL) {
 		GMLGPIO_LOCK_DESTROY(sc);
 		device_printf(dev, "can't allocate memory resource\n");
@@ -447,27 +447,27 @@ gmlgpio_attach(device_t dev)
 	}
 
 	sc->sc_irq_res = bus_alloc_resource_any(dev, SYS_RES_IRQ,
-		&sc->sc_irq_rid, RF_ACTIVE | RF_SHAREABLE);
+	    &sc->sc_irq_rid, RF_ACTIVE | RF_SHAREABLE);
 
 	if (!sc->sc_irq_res) {
 		GMLGPIO_LOCK_DESTROY(sc);
 		bus_release_resource(dev, SYS_RES_MEMORY,
-			sc->sc_mem_rid, sc->sc_mem_res);
+		    sc->sc_mem_rid, sc->sc_mem_res);
 		device_printf(dev, "can't allocate irq resource\n");
 		return (ENOMEM);
 	}
 
 	error = bus_setup_intr(sc->sc_dev, sc->sc_irq_res, INTR_TYPE_MISC | INTR_MPSAFE,
-		NULL, gmlgpio_intr, sc, &sc->intr_handle);
+	    NULL, gmlgpio_intr, sc, &sc->intr_handle);
 
 
 	if (error) {
 		device_printf(sc->sc_dev, "unable to setup irq: error %d\n", error);
 		GMLGPIO_LOCK_DESTROY(sc);
 		bus_release_resource(dev, SYS_RES_MEMORY,
-			sc->sc_mem_rid, sc->sc_mem_res);
+		    sc->sc_mem_rid, sc->sc_mem_res);
 		bus_release_resource(dev, SYS_RES_IRQ,
-			sc->sc_irq_rid, sc->sc_irq_res);
+		    sc->sc_irq_rid, sc->sc_irq_res);
 		return (ENXIO);
 	}
 
@@ -481,9 +481,9 @@ gmlgpio_attach(device_t dev)
 	if (sc->sc_busdev == NULL) {
 		GMLGPIO_LOCK_DESTROY(sc);
 		bus_release_resource(dev, SYS_RES_MEMORY,
-			sc->sc_mem_rid, sc->sc_mem_res);
+		    sc->sc_mem_rid, sc->sc_mem_res);
 		bus_release_resource(dev, SYS_RES_IRQ,
-			sc->sc_irq_rid, sc->sc_irq_res);
+		    sc->sc_irq_rid, sc->sc_irq_res);
 		return (ENXIO);
 	}
 
@@ -509,7 +509,7 @@ gmlgpio_intr(void *arg)
 				continue;
 			bus_write_4(sc->sc_mem_res, offset, 1 << line);
 			device_printf(sc->sc_dev, "cleared interrupt on gpio bit %d\n",
-				(int)offset * 32 + line);
+			    (int)offset * 32 + line);
 		}
 	}
 }
@@ -524,11 +524,12 @@ gmlgpio_detach(device_t dev)
 		gpiobus_detach_bus(dev);
 
 	if (sc->intr_handle != NULL)
-	    bus_teardown_intr(sc->sc_dev, sc->sc_irq_res, sc->intr_handle);
+		bus_teardown_intr(sc->sc_dev, sc->sc_irq_res, sc->intr_handle);
 	if (sc->sc_irq_res != NULL)
 		bus_release_resource(dev, SYS_RES_IRQ, sc->sc_irq_rid, sc->sc_irq_res);
 	if (sc->sc_mem_res != NULL)
-		bus_release_resource(dev, SYS_RES_MEMORY, sc->sc_mem_rid, sc->sc_mem_res);
+		bus_release_resource(dev, SYS_RES_MEMORY, sc->sc_mem_rid,
+		    sc->sc_mem_res);
 
 	GMLGPIO_LOCK_DESTROY(sc);
 
