@@ -2,28 +2,22 @@
 # This is a shell archive
 echo x gmlgpio
 mkdir -p gmlgpio > /dev/null 2>&1
-echo x gmlgpio/pkg-plist
-sed 's/^X//' > gmlgpio/pkg-plist << 'SHAR_END'
-X/%%KMODDIR%%/gmlgpio.ko
-Xman/man4/gmlgpio.4.gz
-SHAR_END
 echo x gmlgpio/pkg-descr
 sed 's/^X//' > gmlgpio/pkg-descr << 'SHAR_END'
 XThe gmlgpio kernel module provides GPIO driver services for Intel's
 XGemini Lake processors.
-X
-XWWW: https://www.github.com/signetica/gmlgpio
 SHAR_END
 echo x gmlgpio/Makefile
 sed 's/^X//' > gmlgpio/Makefile << 'SHAR_END'
 X# Created by: Cyrus Rahman <crahman@gmail.com>
 X
 XPORTNAME=	gmlgpio
-XDISTVERSION=	1.0.0
+XDISTVERSION=	1.0.1
 XCATEGORIES=	sysutils
 X
 XMAINTAINER=	crahman@gmail.com
 XCOMMENT=	GPIO driver for Intel's Gemini Lake Processors
+XWWW=		https://www.github.com/signetica/gmlgpio
 X
 XLICENSE=	BSD2CLAUSE
 X
@@ -39,5 +33,10 @@ Xpre-install:
 X	${INSTALL_MAN} ${WRKSRC}/gmlgpio.4 ${STAGEDIR}${MANPREFIX}/man/man4
 X
 X.include <bsd.port.mk>
+SHAR_END
+echo x gmlgpio/pkg-plist
+sed 's/^X//' > gmlgpio/pkg-plist << 'SHAR_END'
+X/%%KMODDIR%%/gmlgpio.ko
+Xman/man4/gmlgpio.4.gz
 SHAR_END
 exit
