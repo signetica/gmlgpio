@@ -561,8 +561,7 @@ static driver_t gmlgpio_driver = {
     .size = sizeof(struct gmlgpio_softc)
 };
 
-static devclass_t gmlgpio_devclass;
-DRIVER_MODULE(gmlgpio, acpi, gmlgpio_driver, gmlgpio_devclass, NULL , NULL);
+DRIVER_MODULE(gmlgpio, acpi, gmlgpio_driver, NULL , NULL);
 MODULE_DEPEND(gmlgpio, acpi, 1, 1, 1);
 MODULE_DEPEND(gmlgpio, gpiobus, 1, 1, 1);
 
