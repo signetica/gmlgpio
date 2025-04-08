@@ -12,7 +12,7 @@ sed 's/^X//' > gmlgpio/Makefile << 'SHAR_END'
 X# Created by: Cyrus Rahman <crahman@gmail.com>
 X
 XPORTNAME=	gmlgpio
-XDISTVERSION=	1.0.2
+XDISTVERSION=	1.0.3
 XCATEGORIES=	sysutils
 X
 XMAINTAINER=	crahman@gmail.com
