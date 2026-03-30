@@ -477,7 +477,11 @@ gmlgpio_attach(device_t dev)
 		bus_write_4(sc->sc_mem_res, GML_GPI_IS_0 + offset, 0xffffffff);
 	}
 
+#if __FreeBSD_version >= 1500000
+	sc->sc_busdev = gpiobus_add_bus(dev);
+#else
 	sc->sc_busdev = gpiobus_attach_bus(dev);
+#endif
 	if (sc->sc_busdev == NULL) {
 		GMLGPIO_LOCK_DESTROY(sc);
 		bus_release_resource(dev, SYS_RES_MEMORY,
@@ -486,7 +490,9 @@ gmlgpio_attach(device_t dev)
 		    sc->sc_irq_rid, sc->sc_irq_res);
 		return (ENXIO);
 	}
-
+#if __FreeBSD_version >= 1500000
+    bus_attach_children(dev);
+#endif
 	/* Get PAD base address */
 	sc->sc_padbar = gmlgpio_read_padbar(sc);
 
